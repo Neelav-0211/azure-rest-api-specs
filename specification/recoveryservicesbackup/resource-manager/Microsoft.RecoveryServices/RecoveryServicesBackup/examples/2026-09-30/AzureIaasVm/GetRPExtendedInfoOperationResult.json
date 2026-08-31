@@ -19,7 +19,7 @@
               "objectType": "IaasVMRPExtendedInfo",
               "osDisk": {
                 "diskSizeInGB": 127,
-                "lun": 0,
+                "lun": -1,
                 "name": "testvmName_OsDisk_1",
                 "storageType": "Premium_LRS"
               },

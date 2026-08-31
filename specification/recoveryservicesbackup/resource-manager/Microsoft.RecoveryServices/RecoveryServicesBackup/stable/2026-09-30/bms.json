@@ -10672,7 +10672,7 @@
       "properties": {
         "osDisk": {
           "$ref": "#/definitions/DiskInformation",
-          "description": "OS disk of the backed up virtual machine."
+          "description": "OS disk of the backed up virtual machine. The lun of the OS disk is always -1, since a logical unit number is\nonly assigned to data disks."
         },
         "dataDisks": {
           "type": "array",

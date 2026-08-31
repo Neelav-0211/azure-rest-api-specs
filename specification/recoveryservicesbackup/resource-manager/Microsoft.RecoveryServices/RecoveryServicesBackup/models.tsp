@@ -5636,7 +5636,8 @@ model RPExtendedInfo {
 @added(Versions.v2026_09_30)
 model IaasVMRPExtendedInfo extends RPExtendedInfo {
   /**
-   * OS disk of the backed up virtual machine.
+   * OS disk of the backed up virtual machine. The lun of the OS disk is always -1, since a logical unit number is
+   * only assigned to data disks.
    */
   osDisk?: DiskInformation;
 
