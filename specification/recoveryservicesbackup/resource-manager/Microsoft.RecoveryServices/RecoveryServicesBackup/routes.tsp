@@ -798,7 +798,15 @@ interface RecoveryPointsExtendedInfo {
   ):
     | ArmAcceptedResponse<
         "Accepted",
-        ArmLroLocationHeader & Azure.Core.Foundations.RetryAfterHeader
+        ArmLroLocationHeader &
+          Azure.Core.Foundations.RetryAfterHeader & {
+            /**
+             * A link to the shared fabric level operation status endpoint, which reports the status of this long
+             * running operation. The result itself is retrieved from the URL in the Location header.
+             */
+            @header("Azure-AsyncOperation")
+            azureAsyncOperation?: string;
+          }
       >
     | ErrorResponse;
 
@@ -806,7 +814,7 @@ interface RecoveryPointsExtendedInfo {
    * Returns the additional details of the recovery points fetched by a prior getRPExtendedInfo operation, keyed by
    * recovery point ARM id. Returns 202 Accepted while the operation is still running.
    */
-  #suppress "@azure-tools/typespec-azure-resource-manager/lro-location-header" "This is the result endpoint of the getRPExtendedInfo long running operation, not an operation that starts one, so it does not return a Location header."
+  #suppress "@azure-tools/typespec-azure-resource-manager/lro-location-header" "This is the result endpoint of the getRPExtendedInfo long running operation rather than an operation that starts one. It echoes the tracking headers only so that a caller polling it while the operation is still running keeps the same polling targets."
   #suppress "@azure-tools/typespec-azure-core/casing-style" "RP is an established acronym in the BMS contract; the operation name matches the service operation id."
   @route("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/getRPExtendedInfoOperationResult/{operationId}")
   @get
@@ -836,6 +844,17 @@ interface RecoveryPointsExtendedInfo {
     operationId: string,
   ):
     | ArmResponse<RPExtendedInfoResourceDictionary>
-    | ArmAcceptedResponse<"Accepted", Azure.Core.Foundations.RetryAfterHeader>
+    | ArmAcceptedResponse<
+        "Accepted",
+        ArmLroLocationHeader &
+          Azure.Core.Foundations.RetryAfterHeader & {
+            /**
+             * A link to the shared fabric level operation status endpoint, which reports the status of the long
+             * running operation whose result this endpoint returns.
+             */
+            @header("Azure-AsyncOperation")
+            azureAsyncOperation?: string;
+          }
+      >
     | ErrorResponse;
 }

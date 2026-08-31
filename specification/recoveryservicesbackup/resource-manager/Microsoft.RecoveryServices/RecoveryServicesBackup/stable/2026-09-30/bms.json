@@ -910,6 +910,10 @@
           "202": {
             "description": "Accepted",
             "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the shared fabric level operation status endpoint, which reports the status of this long\nrunning operation. The result itself is retrieved from the URL in the Location header."
+              },
               "Location": {
                 "type": "string",
                 "description": "The Location header contains the URL where the status of the long running operation can be checked."
@@ -988,6 +992,14 @@
           "202": {
             "description": "Accepted",
             "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the shared fabric level operation status endpoint, which reports the status of the long\nrunning operation whose result this endpoint returns."
+              },
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
               "Retry-After": {
                 "type": "integer",
                 "format": "int32",
