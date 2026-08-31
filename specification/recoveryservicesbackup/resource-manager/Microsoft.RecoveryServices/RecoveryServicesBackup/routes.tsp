@@ -8,6 +8,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 using TypeSpec.Rest;
 using TypeSpec.Http;
 using Azure.ResourceManager;
+using TypeSpec.Versioning;
 
 namespace Microsoft.RecoveryServices;
 
@@ -757,4 +758,84 @@ interface TieringCostOperationStatus {
     @path
     operationId: string,
   ): ArmResponse<OperationStatus> | ErrorResponse;
+}
+
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-interface-requires-decorator" "Legacy BMS route-based operation group; it is not an ARM resource operation group."
+@added(Versions.v2026_09_30)
+interface RecoveryPointsExtendedInfo {
+  /**
+   * Triggers fetching the additional details of a recovery point, which are not returned by the recovery point GET
+   * API. This is an asynchronous operation. Returns tracking headers which can be tracked using the
+   * GetRPExtendedInfoOperationResult API.
+   */
+  #suppress "@azure-tools/typespec-azure-core/casing-style" "RP is an established acronym in the BMS contract; the operation name matches the service operation id."
+  @route("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/getRPExtendedInfo")
+  @post
+  @tag("RecoveryPoints")
+  getRPExtendedInfo(
+    ...ApiVersionParameter,
+
+    /**
+     * The name of the recovery services vault.
+     */
+    @path
+    vaultName: string,
+
+    ...ResourceGroupParameter,
+    ...SubscriptionIdParameter,
+
+    /**
+     * Fabric name associated with the backed up items.
+     */
+    @path
+    fabricName: string,
+
+    /**
+     * Request payload containing the ARM id of the recovery point whose additional details are to be fetched.
+     */
+    @bodyRoot
+    parameters: GetRPExtendedInfoRequestResource,
+  ):
+    | ArmAcceptedResponse<
+        "Accepted",
+        ArmLroLocationHeader & Azure.Core.Foundations.RetryAfterHeader
+      >
+    | ErrorResponse;
+
+  /**
+   * Returns the additional details of the recovery points fetched by a prior getRPExtendedInfo operation, keyed by
+   * recovery point ARM id. Returns 202 Accepted while the operation is still running.
+   */
+  #suppress "@azure-tools/typespec-azure-resource-manager/lro-location-header" "This is the result endpoint of the getRPExtendedInfo long running operation, not an operation that starts one, so it does not return a Location header."
+  #suppress "@azure-tools/typespec-azure-core/casing-style" "RP is an established acronym in the BMS contract; the operation name matches the service operation id."
+  @route("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/getRPExtendedInfoOperationResult/{operationId}")
+  @get
+  @tag("RecoveryPoints")
+  getRPExtendedInfoOperationResult(
+    ...ApiVersionParameter,
+
+    /**
+     * The name of the recovery services vault.
+     */
+    @path
+    vaultName: string,
+
+    ...ResourceGroupParameter,
+    ...SubscriptionIdParameter,
+
+    /**
+     * Fabric name associated with the backed up items.
+     */
+    @path
+    fabricName: string,
+
+    /**
+     * OperationID which represents the prior getRPExtendedInfo operation whose result needs to be fetched.
+     */
+    @path
+    operationId: string,
+  ):
+    | ArmResponse<RPExtendedInfoResourceDictionary>
+    | ArmAcceptedResponse<ExtraHeaders = {}>
+    | ErrorResponse;
 }
