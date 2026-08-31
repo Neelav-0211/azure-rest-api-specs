@@ -836,6 +836,6 @@ interface RecoveryPointsExtendedInfo {
     operationId: string,
   ):
     | ArmResponse<RPExtendedInfoResourceDictionary>
-    | ArmAcceptedResponse<ExtraHeaders = {}>
+    | ArmAcceptedResponse<"Accepted", Azure.Core.Foundations.RetryAfterHeader>
     | ErrorResponse;
 }
