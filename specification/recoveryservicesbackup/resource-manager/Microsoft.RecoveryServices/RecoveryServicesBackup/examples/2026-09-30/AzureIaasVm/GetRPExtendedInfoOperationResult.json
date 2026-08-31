@@ -45,5 +45,5 @@
     }
   },
   "operationId": "RecoveryPoints_GetRPExtendedInfoOperationResult",
-  "title": "Get Additional Recovery Point Details"
+  "title": "Get RP Extended Info Operation Result"
 }

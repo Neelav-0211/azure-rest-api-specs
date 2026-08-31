@@ -933,7 +933,7 @@
           }
         },
         "x-ms-examples": {
-          "Trigger Fetch Of Additional Recovery Point Details": {
+          "Trigger Get RP Extended Info": {
             "$ref": "./examples/AzureIaasVm/TriggerGetRPExtendedInfo.json"
           }
         },
@@ -1015,7 +1015,7 @@
           }
         },
         "x-ms-examples": {
-          "Get Additional Recovery Point Details": {
+          "Get RP Extended Info Operation Result": {
             "$ref": "./examples/AzureIaasVm/GetRPExtendedInfoOperationResult.json"
           }
         }

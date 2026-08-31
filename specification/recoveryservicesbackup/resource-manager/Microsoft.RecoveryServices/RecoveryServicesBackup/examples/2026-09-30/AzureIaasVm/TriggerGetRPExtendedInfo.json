@@ -23,5 +23,5 @@
     }
   },
   "operationId": "RecoveryPoints_GetRPExtendedInfo",
-  "title": "Trigger Fetch Of Additional Recovery Point Details"
+  "title": "Trigger Get RP Extended Info"
 }
