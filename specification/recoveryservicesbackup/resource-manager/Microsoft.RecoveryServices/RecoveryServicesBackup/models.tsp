@@ -5891,6 +5891,8 @@ model GetRPExtendedInfoRequest {
    * ARM id of the recovery point whose additional details are to be fetched. Exactly one recovery point id can be
    * specified.
    */
+  @minItems(1)
+  @maxItems(1)
   recoveryPointIds: string[];
 }
 
